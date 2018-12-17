@@ -1,0 +1,29 @@
+---
+title: "hw2"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+p = read_csv('hw2_phoible.csv')
+```
+
+### 1.1
+```{r pressure, echo=FALSE}
+p %>% 
+  mutate(proportion = consonants/phonemes) %>% 
+  filter(proportion == max(proportion)) %>% 
+  select(language)
+```
+
+### 1.2
+```{r pressure, echo=FALSE}
+a_prior=9.300246
+b_prior=4.4545
+p %>% 
+  mutate(module = abs((consonants/phonemes)-((consonants+a_prior)/(phonemes+a_prior+b_prior)))) -> p
+p %>% 
+  arrange(desc(module)) %>% 
+  head()
+```

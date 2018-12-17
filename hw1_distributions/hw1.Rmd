@@ -1,5 +1,5 @@
 ---
-title: "Untitled"
+title: "hw1"
 output: pdf_document
 ---
 
@@ -9,7 +9,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ### 1.1
 ```{r pressure, echo=FALSE}
-integrate(function(x){dlnorm(x, mean = 3, sd=5)}, 25, 50)
+integrate(function(x){dlnorm(x, mean = 3, sd=0.5)}, 25, 50)
 ```
 
 ### 1.2

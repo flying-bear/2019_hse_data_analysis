@@ -25,5 +25,6 @@ p %>%
   mutate(module = abs((consonants/phonemes)-((consonants+a_prior)/(phonemes+a_prior+b_prior)))) -> p
 p %>% 
   arrange(desc(module)) %>% 
-  head()
+  head() %>% 
+  select(language)
 ```

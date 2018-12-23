@@ -9,7 +9,7 @@ library(tidyverse)
 p = read_csv('hw2_phoible.csv')
 ```
 
-### 1.1
+### 2.1
 ```{r pressure, echo=FALSE}
 p %>% 
   mutate(proportion = consonants/phonemes) %>% 
@@ -17,7 +17,7 @@ p %>%
   select(language)
 ```
 
-### 1.2
+### 2.2
 ```{r pressure, echo=FALSE}
 a_prior=9.300246
 b_prior=4.4545

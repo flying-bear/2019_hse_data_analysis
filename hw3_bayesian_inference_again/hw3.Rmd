@@ -1,0 +1,37 @@
+---
+title: "hw3"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+### 3.1
+```{r pressure, echo=FALSE}
+data = read_csv('hw3_phoible.csv')
+data %>%
+  mutate(likelihood = dnorm(consonants, 22, 6)) -> data
+result = prod(data$likelihood)
+result
+```
+
+### 3.2
+```{r pressure, echo=FALSE}
+languages <- read_csv('hw3_task2.csv')
+langs <- colnames(languages)[1:13]
+data_frame(lang = langs,
+           prior = 1/length(langs),
+           likelihood = as.numeric(filter(languages, letter == 'm')[1:13]) * as.numeric(filter(languages, letter == 'o')[1:13]) * as.numeric(filter(languages, letter == 's')[1:13]) * as.numeric(filter(languages, letter == 't')[1:13]),
+           product = prior*likelihood,
+           posterior = product/sum(product)) ->results
+max(results$posterior)
+```
+
+### 3.3
+```{r pressure, echo=FALSE}
+data = read_csv('hw3_task3.csv')
+(data$a[1]+33)/(data$a[1]+33+data$b[1]+77)
+
+```

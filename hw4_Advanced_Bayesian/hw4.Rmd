@@ -1,0 +1,35 @@
+---
+title: "hw4"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(ggplot2)
+data <- read_csv('hw4_caretta.csv')
+m <- mean(data$vowel.dur, trim =0.1)
+sd <- sd(data$vowel.dur)
+data.frame(x = c(-100, 250)) %>% 
+  ggplot(aes(x)) +
+  stat_function(aes(color='red'), fun = dnorm, n = 100, args = list(mean = m, sd = sd)) + 
+  ylab('density') +
+  xlab('vowel duration')+
+  scale_y_continuous(breaks = NULL)+
+  geom_density(data = data, aes(vowel.dur), alpha = 0.5)
+```
+
+### 4.1
+```{r pressure, echo=FALSE}
+data %>%
+  filter(speaker == 'brs02') %>% 
+  select(vowel.dur) -> brs02
+as.numeric(brs02[1,])
+```
+
+### 4.2
+```{r pressure, echo=FALSE}
+data %>%
+  filter(speaker == 'tt01') %>% 
+  select(vowel.dur) -> tt01
+```

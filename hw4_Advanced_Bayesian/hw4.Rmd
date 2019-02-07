@@ -21,15 +21,24 @@ data.frame(x = c(-100, 250)) %>%
 
 ### 4.1
 ```{r pressure, echo=FALSE}
-data %>%
-  filter(speaker == 'brs02') %>% 
-  select(vowel.dur) -> brs02
-as.numeric(brs02[1,])
+
+m_brs02 <- mean(filter(data, speaker == 'brs02')$vowel.dur, trim = 0.1)
+sd_brs02 <- sd(filter(data, speaker == 'brs02')$vowel.dur)
+
+m_post = weighted.mean(c(m, m_brs02), c(1/sd, 1/sd_brs02))
+sd_post = (1/sd+1/sd_brs02)^(-1)
+data.frame(mean = m_post, sd = sd_post)
+
 ```
 
 ### 4.2
 ```{r pressure, echo=FALSE}
-data %>%
-  filter(speaker == 'tt01') %>% 
-  select(vowel.dur) -> tt01
+m_tt01 <- mean(filter(data, speaker == 'tt01')$vowel.dur, trim = 0.1)
+sd_tt01 <- sd(filter(data, speaker == 'tt01')$vowel.dur)
+
+m_post <- weighted.mean(c(m, m_tt01), c(1/sd, 1/sd_tt01))
+sd_post <- (1/sd+1/sd_tt01)^(-1)
+cred_int_l <- qnorm(.025, m_post, sd_post)
+cred_int_h <- qnorm(.975, m_post, sd_post)
+data.frame(lower = cred_int_l, higher = cred_int_h)
 ```

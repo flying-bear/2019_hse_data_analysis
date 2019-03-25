@@ -1,0 +1,61 @@
+---
+title: "h5"
+author: "flying_bear"
+date: "March 25, 2019"
+output: pdf_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$scsv_readet(echo = TRUE)
+library(tidyverse)
+library(ca)
+```
+
+### 5.1
+```{r pressure, echo=FALSE}
+chairs <- read.csv('hw5_chairs.csv')
+chairs %>% 
+  select(-Shop, -Category, -WordDE) %>% 
+  MASS::mca() -> MCA
+chairs <- cbind(chairs, MCA$rs)
+variables <- as_data_frame(MCA$cs)
+variables$var_names <- rownames(MCA$cs)
+chairs %>% 
+  ggplot(aes(`1`, `2`))+
+  geom_point(aes(color = Category))+
+  stat_ellipse(aes(color = Category))+
+  geom_text(size=2, data = variables, aes(`1`, `2`, label = var_names))+
+  theme_bw()+
+  scale_x_continuous(limits = c(-0.015, 0.02))
+```
+
+### 5.2
+![](C:\My\studies\HSE\R_Data_analysis\hw5_CA_MCA\chairs.png)
+
+Stuhl - примерно соответствует русскому _стул_, является более нейтральным (function - not specified), включает жёсткие и мягкие материалы, деские и взрослые, складные и обычные стулья, и даже скамейки. Имеет, как видно из графика, подтип _компьютерное кресло_: back, width, depth - adjustable, roll - yes, funtion - work. Sessel примерно соответствует русскому _кресло_ или _софа_: seat - deep, back - high, function - relax, material seet - fabric, leather, polyamid, recline back - yes, additional functions - bed.
+
+### 5.3
+```{r pressure, echo=FALSE}
+colreg <- read.csv('hw5_colreg.csv')
+ca <- ca(colreg[-5])
+
+colreg_col <- data.frame(ca$colcoord)
+colreg_col$rows <- rownames(ca$colcoord)
+
+colreg_row <- data.frame(ca$rowcoord)
+colreg_row$rows <- rownames(ca$rowcoord)
+
+colreg_col %>% 
+  ggplot(aes(Dim1, Dim2, label = colreg_col$rows))+
+  geom_text(color = 'blue')+
+  geom_text(data = colreg_row, color = 'red', label = colreg$colors)+
+  theme_bw()+
+  scale_x_continuous(limits = c(-3, 3))
+```
+
+### 5.4
+В академическом регистре цвета используются относительно редко.
+В устной речи в основном испльзуются _black_ и _white_, вероятно в качестве обозначения рас.
+В прессе много используются _green_ - как обозначение экологического движения, _red_ и _orange_ - политичских движений.
+Остальные цвета в основном встречаются в художественной литературе, при описаниях.
